@@ -6,47 +6,41 @@
 import React, {
   AppRegistry,
   Component,
+  NavigatorIOS,
   StyleSheet,
   Text,
   View
 } from 'react-native';
 
+import Model from './model.js'
+import Home from './home.js'
+
 class ReactReader extends Component {
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.ios.js
-        </Text>
-        <Text style={styles.instructions}>
-          Press Cmd+R to reload,{'\n'}
-          Cmd+D or shake for dev menu
-        </Text>
-      </View>
+      <NavigatorIOS
+        itemWrapperStyle={styles.navWrap}
+        style={styles.nav}
+        initialRoute={{
+          component: Home,
+          navigationBarHidden: false,
+          title: "Get feed items"
+        }} 
+      />
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+  navWrap: {
+    flex: 1
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});
+  nav: {
+    flex: 1
+  }
+})
 
-AppRegistry.registerComponent('ReactReader', () => ReactReader);
+AppRegistry.registerComponent('ReactReader',
+ () => ReactReader);
+
+
