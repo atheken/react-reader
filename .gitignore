@@ -2,3 +2,4 @@ node_modules
 ios/build/ModuleCache
 ios/build/Logs
 ios/build/Build
+ios/DerivedData

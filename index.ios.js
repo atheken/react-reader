@@ -12,7 +12,6 @@ import React, {
   View
 } from 'react-native';
 
-import Model from './model.js'
 import Home from './home.js'
 
 class ReactReader extends Component {

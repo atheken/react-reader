@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
 export default class Home extends Component {
 	constructor(props) {
 		super(props)
-		this.state = {feedUrl:'https://reddit.com/r/cats/.rss', isValid: true, ...props}
+		this.state = {feedUrl:'', isValid: false, ...props}
 	}
  	render() {
  		return (
@@ -67,10 +67,10 @@ export default class Home extends Component {
 				autoCapitalize='none'
 				value={this.state.feedUrl}
 			 	style={styles.feedInput} 
-			 	placeholder="https://reddit.com/r/cats/.rss" 
+			 	placeholder="https://example.com/rss" 
 			 	onChangeText={(text) => this.setState({
 		 			feedUrl:text,
-		 			isValid: /^https:\/\/.+/.test(text)
+		 			isValid: /^http[s]?:\/\/.+[.][^:]+[/].+/.test(text)
 		 		})}
 			/>
 			<Text 
