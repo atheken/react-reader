@@ -25,11 +25,30 @@ let styles = {
     }
 }
 
-export default class ArticleList extends Component {
-    constructor(props) {
-        super(props)
-        this.state = props
-        fetch(this.state.feedUrl)
+class FeedItemListEntry extends Component { 
+
+    render() { return (<View key={this.props.url} >
+                <Text style={styles.rowStyle} onPress={()=>{
+                this.props.navigator.push({
+                    component: WebView,
+                    title: this.props.title,
+                    passProps: {
+                        scalesPageToFit: true,
+                        loading: true,
+                        source: { url: this.props.link }
+                    }
+                })
+            }
+        }>
+            {this.props.title}
+            </Text> 
+            </View>)
+        }
+}
+
+//XML is not JSCore's strong suit.
+const fetchFeedItems = (url) => {
+    return fetch(url)
             .then(response => response.text())
             .then(text => new DOMParser().parseFromString(text))
             .then(xml => {
@@ -42,8 +61,7 @@ export default class ArticleList extends Component {
                     
                     let item = {
                         title: '',
-                        url: '',
-                        key: i
+                        url: ''
                     }
 
                     let titles = element.getElementsByTagName('title')
@@ -60,6 +78,12 @@ export default class ArticleList extends Component {
 
                 return items
             })
+}
+export default class ArticleList extends Component {
+    constructor(props) {
+        super(props)
+        this.state = props
+        fetchFeedItems(this.state.feedUrl)
             .then(items => {
                 var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});               
                 this.setState({feedItems: ds.cloneWithRows(items)})
@@ -69,6 +93,8 @@ export default class ArticleList extends Component {
             })
     }
     render(){
+        var sectionid = 0;
+
         //let's go load the feed and then render.
         var content = <View>
             <Text>We're just about to load this feed:</Text>
@@ -76,18 +102,10 @@ export default class ArticleList extends Component {
         </View>
 
         if(this.state.feedItems){
-            content = <ListView dataSource={this.state.feedItems} renderRow={(data, rowid, sectionid) => <Text key={data.rowid} style={styles.rowStyle} onPress={()=>{
-                this.props.navigator.push({
-                    component: WebView,
-                    title: data.title,
-                    passProps: {
-                        scalesPageToFit: true,
-                        loading: true,
-                        source: { url: data.link }
-                    }
-                })
-            }}>{data.title}</Text> } 
-            renderSeparator={()=><View style={{height:1, backgroundColor:'lightgray'}}/>}
+            content = <ListView dataSource={this.state.feedItems} renderRow={(data, rowid, sectionid, highlight) =>{
+                return <FeedItemListEntry {...this.props} {...data} /> }
+            }
+            renderSeparator={()=><View key={sectionid++} style={{height:1, backgroundColor:'lightblue'}}/>}
             />
         }
 
