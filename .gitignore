@@ -1,2 +1,3 @@
 node_modules
-ios/build/Build
+ios/build/ModuleCache
+ios/build/Logs
