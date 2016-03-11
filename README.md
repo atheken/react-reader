@@ -15,4 +15,6 @@ Clone the repo, and then `cd` into it.
 
 * You may also run the app from XCode by opening the associated `.xcproject` in the `iOS` directory.
 
-## D
+#### Accessing developer tools:
+
+In the simulator, bring up the developer tools menu by pressing `CMD+D`, on device, shake the device to bring up the menu.
